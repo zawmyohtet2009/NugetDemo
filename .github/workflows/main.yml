@@ -19,11 +19,12 @@ jobs:
         run: |
           cd Package
           curl https://dist.nuget.org/win-x86-commandline/latest/nuget.exe --output nuget.exe
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            nuget.exe pack Common.nuspec -version "1.0.1.0-dev.${{ github.run_number }}"
-          elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
+          REF="${GITHUB_REF}"
+          if [[ "$REF" == "refs/heads/main" ]]; then
+            nuget.exe pack Common.nuspec -version "1.0.1.0-dev.${GITHUB_RUN_NUMBER}"
+          elif [[ "$REF" == refs/heads/release/* ]]; then
             nuget.exe pack Common.nuspec -version "1.0.1.0"
-          fi
+          fi          
           ls
   
       - name: Push Package
