@@ -1,0 +1,35 @@
+name: Create and Push Nuget Package
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "release/*" ]
+  workflow_dispatch:
+
+jobs:
+  job_1:
+    name: Create Nuget Package
+    runs-on: windows-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Create Package
+        run: |
+          cd Package
+          curl https://dist.nuget.org/win-x86-commandline/latest/nuget.exe --output nuget.exe
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            nuget.exe pack Common.nuspec -version "1.0.1.0-dev.${{ github.run_number }}"
+          elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
+            nuget.exe pack Common.nuspec -version "1.0.1.0"
+          fi
+          ls
+  
+      - name: Push Package
+        run: |
+          cd Package
+          pwd
+          ls
+          dotnet nuget update source github --source "https://nuget.pkg.github.com/zawmyohtet2009/index.json" --username zawmyohtet2009 --password ${{ secrets.TOKEN }} --store-password-in-clear-text --configfile nuget.config
+          dotnet nuget push common.*.nupkg --source "https://nuget.pkg.github.com/zawmyohtet2009/index.json" -k ${{ secrets.TOKEN }}
