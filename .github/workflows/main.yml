@@ -18,7 +18,6 @@ jobs:
       - name: Create Package
         shell: bash
         run: |
-          cd Package
           curl https://dist.nuget.org/win-x86-commandline/latest/nuget.exe --output nuget.exe
           REF="${GITHUB_REF}"
           if [[ "$REF" == "refs/heads/main" ]]; then
@@ -30,7 +29,6 @@ jobs:
   
       - name: Push Package
         run: |
-          cd Package
           pwd
           ls
           dotnet nuget update source github --source "https://nuget.pkg.github.com/zawmyohtet2009/index.json" --username zawmyohtet2009 --password ${{ secrets.TOKEN }} --store-password-in-clear-text --configfile nuget.config
