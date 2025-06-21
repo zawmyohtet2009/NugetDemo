@@ -22,11 +22,11 @@ jobs:
         run: curl -L https://dist.nuget.org/win-x86-commandline/latest/nuget.exe --output nuget.exe        
 
       - name: Restore dependencies
-        run: ./nuget.exe restore NugetDemo/Common.sln -ConfigFile Common/nuget.config
+        run: ./nuget.exe restore Common/Common.sln -ConfigFile Common/nuget.config
 
       - name: Build
         run: |
-            msbuild /p:Configuration=Release NugetDemo/Common.sln
+            msbuild /p:Configuration=Release Common/Common.sln
             ls
 
       - name: Create Package
