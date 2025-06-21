@@ -15,11 +15,24 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
+      - name: Setup MSBuild Path
+        uses: microsoft/setup-msbuild@v2
+      
+      - name: Download NuGet.exe
+        run: curl -L https://dist.nuget.org/win-x86-commandline/latest/nuget.exe --output nuget.exe        
+
+      - name: Restore dependencies
+        run: ./nuget.exe restore NugetDemo/Common.sln -ConfigFile Common/nuget.config
+
+      - name: Build
+        run: |
+            msbuild /p:Configuration=Release NugetDemo/Common.sln
+            ls
+
       - name: Create Package
         shell: bash
         run: |
           cd Common
-          curl https://dist.nuget.org/win-x86-commandline/latest/nuget.exe --output nuget.exe
           REF="${GITHUB_REF}"
           if [[ "$REF" == "refs/heads/main" ]]; then
             nuget.exe pack Common.nuspec -version "1.0.1.0-dev.${GITHUB_RUN_NUMBER}"
