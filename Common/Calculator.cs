@@ -2,6 +2,9 @@
 
 namespace Common
 {
+    /// <summary>
+    /// Calculator
+    /// </summary>
     public class Calculator : ICalculator
     {
         public int Add(int a, int b)
