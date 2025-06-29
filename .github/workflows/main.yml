@@ -55,4 +55,5 @@ jobs:
           pwd
           ls
           dotnet nuget update source github --source "https://nuget.pkg.github.com/zawmyohtet2009/index.json" --username zawmyohtet2009 --password ${{ secrets.TOKEN }} --store-password-in-clear-text --configfile nuget.config
-          dotnet nuget push common.*.nupkg --source "https://nuget.pkg.github.com/zawmyohtet2009/index.json" -k ${{ secrets.TOKEN }}
+          dotnet nuget push common.*.nupkg --source "https://nuget.pkg.github.com/zawmyohtet2009/index.json" -k ${{ secrets.TOKEN }} --skip-duplicate
+        # To skip already published packages, use the option --skip-duplicate
