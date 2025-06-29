@@ -5,14 +5,14 @@ on:
     branches:
       - main            # Trigger on push to the 'main' branch
       - 'release/*'     # Trigger on push to any branch matching 'release/*' (e.g., 'release/1.0', 'release/feature-x')
+    paths-ignore:
+    - '.github/workflows/**'      
   create:
     branches:
       - 'release/*'     # Trigger when a new branch matching 'release/*' is created. (Happens early in the release process, when the release branch is established.)
   release:
-    types: [published]  # Trigger when a GitHub Release is published via the GitHub UI or API.. (Happens at the very end of the release process, when the official release is made public.)
-    
-    paths-ignore:
-    - '.github/workflows/**'
+    types: [published]  # Trigger when a GitHub Release is published via the GitHub UI or API.. (Happens at the very end of the release process, when the official release is made public.)    
+
   workflow_dispatch:
 
 jobs:
