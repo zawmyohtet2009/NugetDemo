@@ -3,7 +3,7 @@
 namespace Common
 {
     /// <summary>
-    /// Calculator
+    /// Calculator class
     /// </summary>
     public class Calculator : ICalculator
     {
